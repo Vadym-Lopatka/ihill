@@ -7,5 +7,8 @@ import com.ihill.app.gameRequest.domain.GameRequestStatus
 object GameRequestDataHelper {
     private const val VALID_INITIATOR_UUID = "test-initiator-uuid"
 
-    fun buildGameRequest() = GameRequest(initiator = VALID_INITIATOR_UUID, status = GameRequestStatus.OPEN)
+    fun buildGameRequest(initiator: String = VALID_INITIATOR_UUID) = GameRequest(
+        initiator = initiator,
+        status = GameRequestStatus.OPEN
+    )
 }
