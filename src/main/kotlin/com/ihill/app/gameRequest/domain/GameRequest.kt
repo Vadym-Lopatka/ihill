@@ -1,13 +1,9 @@
 package com.ihill.app.gameRequest.domain
 
-import java.time.LocalDateTime
-
 data class GameRequest(
     val initiator: String,
     var acceptor: String? = null,
-    var status: GameRequestStatus = GameRequestStatus.OPEN,
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-    var updatedAt: LocalDateTime? = null
+    var status: GameRequestStatus = GameRequestStatus.OPEN
 )
 
 enum class GameRequestStatus {
@@ -15,4 +11,11 @@ enum class GameRequestStatus {
     CLOSED_BY_INITIATOR,
     ACCEPTED,
     FAILED
+}
+
+fun GameRequest.toAcceptState(acceptorUUID: String): GameRequest {
+    return this.copy().apply {
+        acceptor = acceptorUUID
+        status = GameRequestStatus.ACCEPTED
+    }
 }

@@ -2,13 +2,18 @@ package com.ihill.app.gameRequest
 
 import com.ihill.app.gameRequest.domain.GameRequest
 import com.ihill.app.gameRequest.domain.GameRequestStatus
+import com.ihill.app.gameRequest.domain.GameRequestStatus.OPEN
 
 
 object GameRequestDataHelper {
-    private const val VALID_INITIATOR_UUID = "test-initiator-uuid"
 
-    fun buildGameRequest(initiator: String = VALID_INITIATOR_UUID) = GameRequest(
+    fun buildGameRequest(
+        initiator: String,
+        acceptor: String?,
+        status: GameRequestStatus
+    ) = GameRequest(
         initiator = initiator,
-        status = GameRequestStatus.OPEN
+        acceptor = acceptor,
+        status = status
     )
 }

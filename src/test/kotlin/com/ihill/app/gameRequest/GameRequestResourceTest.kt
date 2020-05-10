@@ -3,6 +3,7 @@ package com.ihill.app.gameRequest
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
 import com.ihill.app.TestHelper.getRandomString
 import com.ihill.app.gameRequest.domain.GameRequest
+import com.ihill.app.gameRequest.domain.GameRequestStatus
 import com.ihill.app.gameRequest.service.GameRequestService
 import com.ihill.app.gameRequest.web.GameRequestResource.Companion.GAME_REQUEST_URL
 import com.ihill.app.gameRequest.web.OpenGameRequest
@@ -27,7 +28,7 @@ class GameRequestResourceTest {
 
     @BeforeEach
     fun setup() {
-        every { service.openGameRequest(any()) } returns buildGameRequest()
+        every { service.openGameRequest(any()) } returns buildGameRequest("1111111111111111111111111111111111", null, GameRequestStatus.OPEN)
     }
 
     @Test

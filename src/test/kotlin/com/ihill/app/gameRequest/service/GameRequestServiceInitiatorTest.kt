@@ -24,7 +24,7 @@ class GameRequestServiceInitiatorTest {
 
     @BeforeEach
     fun setup() {
-        every { repository.save(any()) } returns buildGameRequest(EXIST_INITIATOR_UUID)
+        every { repository.save(any()) } returns buildGameRequest(EXIST_INITIATOR_UUID, null, GameRequestStatus.OPEN)
 
         every { playerRepository.findOne(EXIST_INITIATOR_UUID) } returns Player(EXIST_INITIATOR_UUID)
         every { playerRepository.findOne(NOT_EXIST_INITIATOR_UUID) } returns null
@@ -41,7 +41,6 @@ class GameRequestServiceInitiatorTest {
         // then
         assertThat(gameRequest.initiator).isEqualTo(EXIST_INITIATOR_UUID)
         assertThat(gameRequest.status).isEqualTo(GameRequestStatus.OPEN)
-        assertThat(gameRequest.createdAt).isNotNull()
     }
 
     @Test

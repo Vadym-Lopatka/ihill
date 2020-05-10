@@ -1,14 +1,19 @@
 package com.ihill.app.gameRequest.service
 
 import com.ihill.app.game.GameService
+import com.ihill.app.gameRequest.ErrorMsg.GAME_REQUEST_CAN_NOT_BE_ACCEPTED
+import com.ihill.app.gameRequest.ErrorMsg.GAME_REQUEST_NOT_FOUND
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
-import com.ihill.app.gameRequest.domain.GameRequestStatus
+import com.ihill.app.gameRequest.domain.GameRequestStatus.ACCEPTED
+import com.ihill.app.gameRequest.domain.GameRequestStatus.CLOSED_BY_INITIATOR
+import com.ihill.app.gameRequest.domain.GameRequestStatus.OPEN
 import com.ihill.app.gameRequest.repository.GameRequestRepository
 import com.ihill.app.player.repository.Player
 import com.ihill.app.player.repository.PlayerRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -23,14 +28,21 @@ class GameRequestServiceAcceptorTest {
 
     @BeforeEach
     fun setup() {
-        every { repository.findOne(any()) } returns buildGameRequest(INITIATOR_UUID)
+        val openGameRequest = buildGameRequest(INITIATOR_UUID, null, OPEN)
+        val acceptedGameRequest = buildGameRequest(INITIATOR_UUID, ACCEPTOR_UUID, ACCEPTED)
+        val closedGameRequest = buildGameRequest(INITIATOR_UUID, ACCEPTOR_UUID, CLOSED_BY_INITIATOR)
+
+        every { repository.findOne(OPENED_GAME_REQUEST_UUID) } returns openGameRequest
+        every { repository.findOneByUuidAndStatus(OPENED_GAME_REQUEST_UUID, OPEN) } returns openGameRequest
+        every { repository.save(acceptedGameRequest) } returns acceptedGameRequest
+
+        every { playerRepository.findOne(ACCEPTOR_UUID) } returns Player(ACCEPTOR_UUID)
+
+        every { repository.findOne(CLOSED_GAME_REQUEST_UUID) } returns closedGameRequest
+        every { repository.findOneByUuidAndStatus(CLOSED_GAME_REQUEST_UUID, OPEN) } returns null
+        every { repository.findOneByUuidAndStatus(NOT_EXIST_GAME_REQUEST_UUID, OPEN) } returns null
 
         every { gameService.newGame(any()) } returns buildGame(INITIATOR_UUID, ACCEPTOR_UUID)
-
-        every { playerRepository.findOne(INITIATOR_UUID) } returns Player(INITIATOR_UUID)
-        every { playerRepository.findOne(ACCEPTOR_UUID) } returns Player(ACCEPTOR_UUID)
-        every { playerRepository.findOne(NOT_EXIST_INITIATOR_UUID) } returns null
-        every { playerRepository.findOne(NOT_EXIST_ACCEPTOR_UUID) } returns null
     }
 
     private fun buildGame(initiatorUuid: String, acceptorUuid: String)= Game(
@@ -41,6 +53,7 @@ class GameRequestServiceAcceptorTest {
     @Test
     fun `should accept opened GameRequest`() {
         // given
+
         val openedGameRequestUUID = OPENED_GAME_REQUEST_UUID
         val acceptorUUID = ACCEPTOR_UUID
 
@@ -50,11 +63,36 @@ class GameRequestServiceAcceptorTest {
         // then
         assertThat(gameRequest.initiator).isEqualTo(INITIATOR_UUID)
         assertThat(gameRequest.acceptor).isEqualTo(ACCEPTOR_UUID)
-        assertThat(gameRequest.status).isEqualTo(GameRequestStatus.ACCEPTED)
-        assertThat(gameRequest.createdAt).isNotNull()
-        assertThat(gameRequest.updatedAt).isAfter(gameRequest.createdAt)
+        assertThat(gameRequest.status).isEqualTo(ACCEPTED)
     }
 
+    @Test
+    fun `should throw an exception when GameRequest does not exist`() {
+        // given
+        val openedGameRequestUUID = NOT_EXIST_GAME_REQUEST_UUID
+        val acceptorUUID = ACCEPTOR_UUID
+
+        // when then
+        Assertions.assertThrows(IllegalStateException::class.java) {
+            service.acceptGameRequest(openedGameRequestUUID, acceptorUUID)
+        }.let {
+            assertThat(it.message).contains(GAME_REQUEST_NOT_FOUND)
+        }
+    }
+
+    @Test
+    fun `should throw an exception when GameRequest is already closed`() {
+        // given
+        val openedGameRequestUUID = CLOSED_GAME_REQUEST_UUID
+        val acceptorUUID = ACCEPTOR_UUID
+
+        // when then
+        Assertions.assertThrows(IllegalStateException::class.java) {
+            service.acceptGameRequest(openedGameRequestUUID, acceptorUUID)
+        }/*.let {
+            assertThat(it.message).contains(GAME_REQUEST_CAN_NOT_BE_ACCEPTED)
+        }*/
+    }
 
     companion object {
         private const val INITIATOR_UUID = "initiator-uuid"
