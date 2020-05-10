@@ -1,7 +1,6 @@
 package com.ihill.app.gameRequest.service
 
 import com.ihill.app.game.GameService
-import com.ihill.app.gameRequest.ErrorMsg.GAME_REQUEST_CAN_NOT_BE_ACCEPTED
 import com.ihill.app.gameRequest.ErrorMsg.GAME_REQUEST_NOT_FOUND
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
 import com.ihill.app.gameRequest.domain.GameRequestStatus.ACCEPTED
@@ -17,32 +16,27 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-
 class GameRequestServiceAcceptorTest {
-
-    private val repository = mockk<GameRequestRepository>()
+    private val gameRequestRepository = mockk<GameRequestRepository>()
     private val playerRepository = mockk<PlayerRepository>()
     private val gameService = mockk<GameService>()
 
-    private val service = GameRequestService(gameService, repository, playerRepository)
+    private val service = GameRequestService(gameService, gameRequestRepository, playerRepository)
 
     @BeforeEach
     fun setup() {
+        // player
+        every { playerRepository.findOne(ACCEPTOR_UUID) } returns Player(ACCEPTOR_UUID)
+        // game
+        every { gameService.newGame(any()) } returns buildGame(INITIATOR_UUID, ACCEPTOR_UUID)
+
+        // game request
         val openGameRequest = buildGameRequest(INITIATOR_UUID, null, OPEN)
         val acceptedGameRequest = buildGameRequest(INITIATOR_UUID, ACCEPTOR_UUID, ACCEPTED)
-        val closedGameRequest = buildGameRequest(INITIATOR_UUID, ACCEPTOR_UUID, CLOSED_BY_INITIATOR)
+        every { gameRequestRepository.findOne(OPENED_GAME_REQUEST_UUID) } returns openGameRequest
+        every { gameRequestRepository.findOneByUuidAndStatus(OPENED_GAME_REQUEST_UUID, OPEN) } returns openGameRequest
+        every { gameRequestRepository.save(acceptedGameRequest) } returns acceptedGameRequest
 
-        every { repository.findOne(OPENED_GAME_REQUEST_UUID) } returns openGameRequest
-        every { repository.findOneByUuidAndStatus(OPENED_GAME_REQUEST_UUID, OPEN) } returns openGameRequest
-        every { repository.save(acceptedGameRequest) } returns acceptedGameRequest
-
-        every { playerRepository.findOne(ACCEPTOR_UUID) } returns Player(ACCEPTOR_UUID)
-
-        every { repository.findOne(CLOSED_GAME_REQUEST_UUID) } returns closedGameRequest
-        every { repository.findOneByUuidAndStatus(CLOSED_GAME_REQUEST_UUID, OPEN) } returns null
-        every { repository.findOneByUuidAndStatus(NOT_EXIST_GAME_REQUEST_UUID, OPEN) } returns null
-
-        every { gameService.newGame(any()) } returns buildGame(INITIATOR_UUID, ACCEPTOR_UUID)
     }
 
     private fun buildGame(initiatorUuid: String, acceptorUuid: String)= Game(
@@ -69,6 +63,8 @@ class GameRequestServiceAcceptorTest {
     @Test
     fun `should throw an exception when GameRequest does not exist`() {
         // given
+        every { gameRequestRepository.findOneByUuidAndStatus(NOT_EXIST_GAME_REQUEST_UUID, OPEN) } returns null
+
         val openedGameRequestUUID = NOT_EXIST_GAME_REQUEST_UUID
         val acceptorUUID = ACCEPTOR_UUID
 
@@ -83,6 +79,10 @@ class GameRequestServiceAcceptorTest {
     @Test
     fun `should throw an exception when GameRequest is already closed`() {
         // given
+        val closedGameRequest = buildGameRequest(INITIATOR_UUID, ACCEPTOR_UUID, CLOSED_BY_INITIATOR)
+
+        every { gameRequestRepository.findOne(CLOSED_GAME_REQUEST_UUID) } returns closedGameRequest
+        every { gameRequestRepository.findOneByUuidAndStatus(CLOSED_GAME_REQUEST_UUID, OPEN) } returns null
         val openedGameRequestUUID = CLOSED_GAME_REQUEST_UUID
         val acceptorUUID = ACCEPTOR_UUID
 
