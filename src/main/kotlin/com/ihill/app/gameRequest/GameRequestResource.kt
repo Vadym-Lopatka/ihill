@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(GAME_REQUEST_URL)
 class GameRequestResource (val service: GameRequestService) {
 
     @PostMapping
-    fun openGameRequest(@RequestBody request: NewGameRequest): GameRequest {
+    fun openGameRequest(@RequestBody @Valid request: OpenGameRequest): GameRequest {
         return service.openGameRequest(request.initiatorUuid)
     }
 
