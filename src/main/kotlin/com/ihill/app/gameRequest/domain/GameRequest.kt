@@ -1,13 +1,13 @@
-package com.ihill.app.gameRequest
+package com.ihill.app.gameRequest.domain
 
 import java.time.LocalDateTime
 
 data class GameRequest(
-        val initiator: String,
-        val defender: String? = null,
-        val status: GameRequestStatus = GameRequestStatus.OPEN,
-        val createdAt: LocalDateTime = LocalDateTime.now(),
-        val updatedAt: LocalDateTime? = null
+    val initiator: String,
+    val defender: String? = null,
+    val status: GameRequestStatus = GameRequestStatus.OPEN,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime? = null
 )
 
 //fun GameRequest.toOpenRequest(initiator: String) = GameRequest(initiator = initiator, status = GameRequestStatus.OPEN)

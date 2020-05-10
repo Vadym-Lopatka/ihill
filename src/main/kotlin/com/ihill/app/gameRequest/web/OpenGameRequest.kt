@@ -1,5 +1,6 @@
-package com.ihill.app.gameRequest
+package com.ihill.app.gameRequest.web
 
+import com.ihill.app.gameRequest.UuidSettings
 import javax.validation.constraints.Size
 
 data class OpenGameRequest(

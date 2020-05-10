@@ -1,6 +1,8 @@
-package com.ihill.app.gameRequest
+package com.ihill.app.gameRequest.web
 
-import com.ihill.app.gameRequest.GameRequestResource.Companion.GAME_REQUEST_URL
+import com.ihill.app.gameRequest.service.GameRequestService
+import com.ihill.app.gameRequest.domain.GameRequest
+import com.ihill.app.gameRequest.web.GameRequestResource.Companion.GAME_REQUEST_URL
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping

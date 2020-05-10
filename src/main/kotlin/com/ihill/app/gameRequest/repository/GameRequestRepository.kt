@@ -1,5 +1,6 @@
-package com.ihill.app.gameRequest
+package com.ihill.app.gameRequest.repository
 
+import com.ihill.app.gameRequest.domain.GameRequest
 import org.springframework.stereotype.Service
 
 

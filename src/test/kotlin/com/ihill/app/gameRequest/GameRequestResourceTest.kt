@@ -2,7 +2,10 @@ package com.ihill.app.gameRequest
 
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
 import com.ihill.app.TestHelper.getRandomString
-import com.ihill.app.gameRequest.GameRequestResource.Companion.GAME_REQUEST_URL
+import com.ihill.app.gameRequest.domain.GameRequest
+import com.ihill.app.gameRequest.service.GameRequestService
+import com.ihill.app.gameRequest.web.GameRequestResource.Companion.GAME_REQUEST_URL
+import com.ihill.app.gameRequest.web.OpenGameRequest
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.assertTrue
