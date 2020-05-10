@@ -13,4 +13,8 @@ class GameRequestRepository {
         return request
     }
 
+    fun findOne(gameRequestUUID: String): GameRequest? {
+        return store[gameRequestUUID]
+    }
+
 }

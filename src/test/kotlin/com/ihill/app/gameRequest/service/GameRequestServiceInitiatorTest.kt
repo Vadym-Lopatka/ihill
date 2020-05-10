@@ -1,5 +1,6 @@
 package com.ihill.app.gameRequest.service
 
+import com.ihill.app.game.GameService
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
 import com.ihill.app.gameRequest.domain.GameRequestStatus
 import com.ihill.app.gameRequest.repository.GameRequestRepository
@@ -13,24 +14,24 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 
-class GameRequestServiceTest {
+class GameRequestServiceInitiatorTest {
 
     private val repository = mockk<GameRequestRepository>()
     private val playerRepository = mockk<PlayerRepository>()
+    private val gameService = mockk<GameService>()
 
-
-    private val service = GameRequestService(repository,playerRepository)
+    private val service = GameRequestService(gameService, repository, playerRepository)
 
     @BeforeEach
     fun setup() {
         every { repository.save(any()) } returns buildGameRequest(EXIST_INITIATOR_UUID)
 
         every { playerRepository.findOne(EXIST_INITIATOR_UUID) } returns Player(EXIST_INITIATOR_UUID)
-        every { playerRepository.findOne(DOES_NOT_EXIST_INITIATOR_UUID) } returns null
+        every { playerRepository.findOne(NOT_EXIST_INITIATOR_UUID) } returns null
     }
 
     @Test
-    fun `should save and return saved GameRequest by existed initiator`() {
+    fun `should open GameRequest when initiator does exist`() {
         // given
         val initiator = EXIST_INITIATOR_UUID
 
@@ -46,7 +47,7 @@ class GameRequestServiceTest {
     @Test
     fun `should throw an exception when initiator does not exist`() {
         // given
-        val initiator = DOES_NOT_EXIST_INITIATOR_UUID
+        val initiator = NOT_EXIST_INITIATOR_UUID
 
         // when then
         Assertions.assertThrows(IllegalStateException::class.java) {
@@ -55,8 +56,7 @@ class GameRequestServiceTest {
     }
 
     companion object {
-        private const val EXIST_INITIATOR_UUID = "uuid-that-exist"
-        private const val DOES_NOT_EXIST_INITIATOR_UUID = "uuid-that-does-not-exist"
+        private const val EXIST_INITIATOR_UUID = "initiator-uuid-that-exist"
+        private const val NOT_EXIST_INITIATOR_UUID = "initiator-uuid-that-does-not-exist"
     }
-
 }
