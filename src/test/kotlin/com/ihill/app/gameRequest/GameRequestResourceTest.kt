@@ -1,11 +1,8 @@
-package com.ihill.app
+package com.ihill.app.gameRequest
 
-import com.ihill.app.gameRequest.GameRequest
+import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
+import com.ihill.app.TestHelper.getRandomString
 import com.ihill.app.gameRequest.GameRequestResource.Companion.GAME_REQUEST_URL
-import com.ihill.app.gameRequest.GameRequestService
-import com.ihill.app.gameRequest.GameRequestStatus
-import com.ihill.app.gameRequest.OpenGameRequest
-import com.ihill.app.gameRequest.UuidSettings
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -41,19 +38,6 @@ class GameRequestResourceTest {
 
         //then
         assertTrue(response.statusCode.is2xxSuccessful)
-    }
-
-    private fun buildGameRequest() = GameRequest(initiator = VALID_INITIATOR_UUID, status = GameRequestStatus.OPEN)
-
-    fun getRandomString(length: Int): String {
-        val allowedChars = ('A'..'Z') + ('a'..'z')
-        return (1..length)
-            .map { allowedChars.random() }
-            .joinToString("")
-    }
-
-    companion object {
-        private const val VALID_INITIATOR_UUID = "test-initiator-uuid"
     }
 
 }
