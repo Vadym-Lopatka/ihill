@@ -1,8 +1,13 @@
 package com.ihill.app.gameRequest.service
 
 import com.ihill.app.game.GameService
+import com.ihill.app.gameRequest.ACCEPTOR_UUID
+import com.ihill.app.gameRequest.CLOSED_GAME_REQUEST_UUID
 import com.ihill.app.gameRequest.ErrorMsg.GAME_REQUEST_NOT_FOUND
 import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
+import com.ihill.app.gameRequest.INITIATOR_UUID
+import com.ihill.app.gameRequest.NOT_EXIST_GAME_REQUEST_UUID
+import com.ihill.app.gameRequest.OPENED_GAME_REQUEST_UUID
 import com.ihill.app.gameRequest.domain.GameRequestStatus.ACCEPTED
 import com.ihill.app.gameRequest.domain.GameRequestStatus.CLOSED_BY_INITIATOR
 import com.ihill.app.gameRequest.domain.GameRequestStatus.OPEN
@@ -95,16 +100,7 @@ class GameRequestServiceAcceptorTest {
     }
 
     companion object {
-        private const val INITIATOR_UUID = "initiator-uuid"
-        private const val NOT_EXIST_INITIATOR_UUID = "initiator-uuid-that-does-not-exist"
 
-        private const val ACCEPTOR_UUID = "acceptor-uuid"
-        private const val NOT_EXIST_ACCEPTOR_UUID = "acceptor-uuid-that-does-not-exist"
-
-        private const val OPENED_GAME_REQUEST_UUID = "opened-game-request-uuid"
-        private const val NOT_EXIST_GAME_REQUEST_UUID = "not-exist-game-request-uuid"
-        private const val CLOSED_GAME_REQUEST_UUID = "closed-game-request-uuid"
-        private const val FAILED_GAME_REQUEST_UUID = "failed-game-request-uuid"
 
     }
 
