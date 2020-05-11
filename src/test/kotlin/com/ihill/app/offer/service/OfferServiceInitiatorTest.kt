@@ -1,9 +1,9 @@
-package com.ihill.app.gameRequest.service
+package com.ihill.app.offer.service
 
 import com.ihill.app.game.GameService
-import com.ihill.app.gameRequest.GameRequestDataHelper.buildGameRequest
-import com.ihill.app.gameRequest.domain.GameRequestStatus
-import com.ihill.app.gameRequest.repository.GameRequestRepository
+import com.ihill.app.offer.OfferDataHelper.buildOffer
+import com.ihill.app.offer.domain.OfferStatus
+import com.ihill.app.offer.repository.OfferRepository
 import com.ihill.app.player.repository.Player
 import com.ihill.app.player.repository.PlayerRepository
 import io.mockk.every
@@ -14,33 +14,33 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 
-class GameRequestServiceInitiatorTest {
+class OfferServiceInitiatorTest {
 
-    private val repository = mockk<GameRequestRepository>()
+    private val repository = mockk<OfferRepository>()
     private val playerRepository = mockk<PlayerRepository>()
     private val gameService = mockk<GameService>()
 
-    private val service = GameRequestService(gameService, repository, playerRepository)
+    private val service = OfferService(gameService, repository, playerRepository)
 
     @BeforeEach
     fun setup() {
-        every { repository.save(any()) } returns buildGameRequest(EXIST_INITIATOR_UUID, null, GameRequestStatus.OPEN)
+        every { repository.save(any()) } returns buildOffer(EXIST_INITIATOR_UUID, null, OfferStatus.OPEN)
 
         every { playerRepository.findOne(EXIST_INITIATOR_UUID) } returns Player(EXIST_INITIATOR_UUID)
         every { playerRepository.findOne(NOT_EXIST_INITIATOR_UUID) } returns null
     }
 
     @Test
-    fun `should open GameRequest when initiator does exist`() {
+    fun `should open Offer when initiator does exist`() {
         // given
         val initiator = EXIST_INITIATOR_UUID
 
         // when
-        val gameRequest = service.openGameRequest(initiator)
+        val offer = service.openOffer(initiator)
 
         // then
-        assertThat(gameRequest.initiator).isEqualTo(EXIST_INITIATOR_UUID)
-        assertThat(gameRequest.status).isEqualTo(GameRequestStatus.OPEN)
+        assertThat(offer.initiator).isEqualTo(EXIST_INITIATOR_UUID)
+        assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
     }
 
     @Test
@@ -50,7 +50,7 @@ class GameRequestServiceInitiatorTest {
 
         // when then
         Assertions.assertThrows(IllegalStateException::class.java) {
-            service.openGameRequest(initiator)
+            service.openOffer(initiator)
         }
     }
 

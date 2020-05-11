@@ -1,6 +1,5 @@
 package com.ihill.app.player.repository
 
-import com.ihill.app.gameRequest.domain.GameRequest
 import org.springframework.stereotype.Component
 import java.util.UUID
 

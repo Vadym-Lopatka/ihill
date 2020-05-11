@@ -1,12 +1,11 @@
 package com.ihill.app.game
 
-import com.ihill.app.gameRequest.domain.GameRequest
-import com.ihill.app.gameRequest.service.Game
+import com.ihill.app.offer.domain.Offer
 import org.springframework.stereotype.Service
 
 @Service
 class GameService {
-    fun newGame(request: GameRequest): Game {
+    fun newGame(offer: Offer): Game {
         TODO("Not yet implemented")
     }
 }
