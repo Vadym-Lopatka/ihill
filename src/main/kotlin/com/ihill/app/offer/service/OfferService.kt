@@ -1,5 +1,6 @@
 package com.ihill.app.offer.service
 
+import com.ihill.app.game.Game
 import com.ihill.app.game.GameService
 import com.ihill.app.offer.ErrorMsg
 import com.ihill.app.offer.domain.Offer
@@ -22,7 +23,7 @@ class OfferService(
         return offerRepository.save(Offer(initiator = player.uuid, status = OPEN))
     }
 
-    fun acceptOffer(offerUUID: String, acceptorUUID: String): Offer {
+    fun acceptOffer(offerUUID: String, acceptorUUID: String): Game {
         playerRepository.findOne(acceptorUUID)
             ?: throw IllegalStateException("${ErrorMsg.PLAYER_NOT_FOUND} $acceptorUUID")
 
@@ -30,10 +31,7 @@ class OfferService(
             ?.let { offerRepository.save(it.toAcceptState(acceptorUUID)) }
             ?: throw IllegalStateException("${ErrorMsg.OFFER_NOT_FOUND} $acceptorUUID")
 
-        gameService.newGame(offer)
-        return offer
+        return gameService.newGame(offer)
     }
-
-
 }
 

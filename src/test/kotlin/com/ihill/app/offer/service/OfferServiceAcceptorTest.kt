@@ -2,6 +2,7 @@ package com.ihill.app.offer.service
 
 import com.ihill.app.game.Game
 import com.ihill.app.game.GameService
+import com.ihill.app.game.GameStatus
 import com.ihill.app.offer.ACCEPTOR_UUID
 import com.ihill.app.offer.CLOSED_OFFER_UUID
 import com.ihill.app.offer.ErrorMsg.OFFER_NOT_FOUND
@@ -54,17 +55,15 @@ class OfferServiceAcceptorTest {
     @Test
     fun `should accept opened Offer`() {
         // given
-
         val openedOfferUUID = OPENED_OFFER_UUID
         val acceptorUUID = ACCEPTOR_UUID
 
         // when
-        val offer = service.acceptOffer(openedOfferUUID, acceptorUUID)
+        val game = service.acceptOffer(openedOfferUUID, acceptorUUID)
 
         // then
-        assertThat(offer.initiator).isEqualTo(INITIATOR_UUID)
-        assertThat(offer.acceptor).isEqualTo(ACCEPTOR_UUID)
-        assertThat(offer.status).isEqualTo(ACCEPTED)
+        assertThat(acceptorUUID).isEqualTo(game.acceptor)
+        assertThat(GameStatus.LOBBY).isEqualTo(game.status)
     }
 
     @Test
