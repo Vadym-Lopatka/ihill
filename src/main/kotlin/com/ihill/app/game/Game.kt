@@ -1,4 +1,4 @@
-package com.ihill.app.gameRequest.service
+package com.ihill.app.game
 
 import java.time.LocalDateTime
 

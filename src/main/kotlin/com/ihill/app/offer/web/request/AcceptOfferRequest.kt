@@ -1,11 +1,11 @@
-package com.ihill.app.gameRequest.web.request
+package com.ihill.app.offer.web.request
 
-import com.ihill.app.gameRequest.UuidSettings
+import com.ihill.app.offer.UuidSettings
 import javax.validation.constraints.Size
 
-data class AcceptGameRequest(
+data class AcceptOfferRequest(
     @field:Size(min = UuidSettings.MIN_LENGTH, max = UuidSettings.MAX_LENGTH)
     val acceptorUUID: String,
-    val gameRequestUUID: String
+    val offerUUID: String
 )
 
