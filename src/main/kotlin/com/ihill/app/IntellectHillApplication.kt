@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class IntellectHillApplication
 
 fun main(args: Array<String>) {
-	runApplication<IntellectHillApplication>(*args)
+    runApplication<IntellectHillApplication>(*args)
 }
