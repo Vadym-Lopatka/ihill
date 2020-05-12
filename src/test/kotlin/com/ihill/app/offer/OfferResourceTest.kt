@@ -1,6 +1,8 @@
 package com.ihill.app.offer
 
 import com.ihill.app.TestHelper.getRandomString
+import com.ihill.app.game.Game
+import com.ihill.app.game.GameStatus
 import com.ihill.app.offer.OfferDataHelper.buildOffer
 import com.ihill.app.offer.domain.Offer
 import com.ihill.app.offer.domain.OfferStatus
@@ -10,6 +12,7 @@ import com.ihill.app.offer.web.request.AcceptOfferRequest
 import com.ihill.app.offer.web.request.OpenOfferRequest
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,18 +33,14 @@ class OfferResourceTest {
 
     @BeforeEach
     fun setup() {
-        val offer = buildOffer(getRandomString(UuidSettings.MIN_LENGTH), null, OfferStatus.OPEN)
-        every { service.openOffer(any()) } returns offer
-        every { service.acceptOffer(any(), any()) } returns offer.apply {
-            acceptor = ACCEPTOR_UUID
-            status = OfferStatus.ACCEPTED
-        }
+        every { service.openOffer(any()) } returns buildOffer(INITIATOR_UUID, null, OfferStatus.OPEN)
+        every { service.acceptOffer(any(), any()) } returns Game(INITIATOR_UUID, ACCEPTOR_UUID,GameStatus.LOBBY)
     }
 
     @Test
     fun `should open a new Offer`() {
         // given
-        val openOffer = OpenOfferRequest(getRandomString(UuidSettings.MIN_LENGTH))
+        val openOffer = OpenOfferRequest(INITIATOR_UUID)
 
         // when
         val httpRequest = HttpEntity(openOffer)
@@ -49,22 +48,26 @@ class OfferResourceTest {
 
         //then
         assertTrue(response.statusCode.is2xxSuccessful)
+        val offer = response.body!!
+        assertThat(openOffer.initiatorUUID).isEqualTo(offer.initiator)
+        assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
     }
 
     @Test
     fun `should accept opened Offer`() {
         // given
-        val acceptOffer = AcceptOfferRequest(
-            acceptorUUID = ACCEPTOR_UUID,
-            offerUUID = OPENED_OFFER_UUID
-        )
+        val acceptOffer = AcceptOfferRequest(ACCEPTOR_UUID, OPENED_OFFER_UUID)
 
         // when
         val httpRequest = HttpEntity(acceptOffer)
-        val response = testRestTemplate.exchange(OFFER_URL, HttpMethod.PUT, httpRequest, Offer::class.java)
+        val response = testRestTemplate.exchange(OFFER_URL, HttpMethod.PUT, httpRequest, Game::class.java)
 
         //then
         assertTrue(response.statusCode.is2xxSuccessful)
+        val game = response.body!!
+        assertThat(game.initiator).isEqualTo(INITIATOR_UUID)
+        assertThat(game.acceptor).isEqualTo(ACCEPTOR_UUID)
+        assertThat(game.status).isEqualTo(GameStatus.LOBBY)
     }
 
 }

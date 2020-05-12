@@ -1,6 +1,7 @@
 package com.ihill.app.offer.web
 
 import com.ihill.app.config.getLogger
+import com.ihill.app.game.Game
 import com.ihill.app.offer.domain.Offer
 import com.ihill.app.offer.service.OfferService
 import com.ihill.app.offer.web.OfferResource.Companion.OFFER_URL
@@ -25,7 +26,7 @@ class OfferResource(val service: OfferService) {
     }
 
     @PutMapping
-    fun acceptOffer(@RequestBody @Valid request: AcceptOfferRequest): Offer {
+    fun acceptOffer(@RequestBody @Valid request: AcceptOfferRequest): Game {
         log.debug("[API] accept Offer by request: $request")
         return service.acceptOffer(request.offerUUID, request.acceptorUUID)
     }

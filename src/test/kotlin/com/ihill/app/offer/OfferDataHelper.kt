@@ -16,7 +16,7 @@ object OfferDataHelper {
     )
 }
 
-const val INITIATOR_UUID = "initiator-uuid"
+const val INITIATOR_UUID = "INITIATOR-1111111111111111111111111111111111111"
 const val NOT_EXIST_INITIATOR_UUID = "initiator-uuid-that-does-not-exist"
 
 const val ACCEPTOR_UUID = "ACCEPTOR-1111111111111111111111111111111111111"
