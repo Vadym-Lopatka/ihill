@@ -1,7 +1,7 @@
 package com.ihill.app.helper
 
 import com.ihill.app.domain.Offer
-import com.ihill.app.domain.OfferStatusType
+import com.ihill.app.domain.enums.OfferStatusType
 
 
 object OfferDataHelper {

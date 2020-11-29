@@ -1,10 +1,10 @@
 package com.ihill.app.service
 
 import com.ihill.app.domain.Game
-import com.ihill.app.domain.GameStatusType
-import com.ihill.app.domain.OfferStatusType
-import com.ihill.app.domain.OfferStatusType.CLOSED
-import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.enums.GameStatusType
+import com.ihill.app.domain.enums.OfferStatusType
+import com.ihill.app.domain.enums.OfferStatusType.CLOSED
+import com.ihill.app.domain.enums.OfferStatusType.OPEN
 import com.ihill.app.domain.Player
 import com.ihill.app.helper.*
 import com.ihill.app.helper.ErrorMsg.OFFER_NOT_FOUND

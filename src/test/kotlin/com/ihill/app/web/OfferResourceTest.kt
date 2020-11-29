@@ -1,9 +1,9 @@
 package com.ihill.app.web
 
 import com.ihill.app.domain.Game
-import com.ihill.app.domain.GameStatusType
+import com.ihill.app.domain.enums.GameStatusType
 import com.ihill.app.domain.Offer
-import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.enums.OfferStatusType.OPEN
 import com.ihill.app.helper.ACCEPTOR_UUID
 import com.ihill.app.helper.INITIATOR_UUID
 import com.ihill.app.helper.OPENED_OFFER_UUID

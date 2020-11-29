@@ -2,8 +2,7 @@ package com.ihill.app.service
 
 import com.ihill.app.domain.Game
 import com.ihill.app.domain.Offer
-import com.ihill.app.domain.OfferStatusType
-import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.enums.OfferStatusType.OPEN
 import com.ihill.app.domain.toAcceptedState
 import com.ihill.app.helper.ErrorMsg
 import com.ihill.app.repository.OfferRepository

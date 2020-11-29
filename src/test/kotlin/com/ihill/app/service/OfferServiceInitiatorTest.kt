@@ -1,7 +1,6 @@
 package com.ihill.app.service
 
-import com.ihill.app.domain.OfferStatusType
-import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.enums.OfferStatusType.OPEN
 import com.ihill.app.domain.Player
 import com.ihill.app.helper.OfferDataHelper.buildOffer
 import com.ihill.app.repository.OfferRepository

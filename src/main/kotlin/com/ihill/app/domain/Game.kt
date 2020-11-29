@@ -1,5 +1,6 @@
 package com.ihill.app.domain
 
+import com.ihill.app.domain.enums.GameStatusType
 import java.time.LocalDateTime
 
 data class Game(
