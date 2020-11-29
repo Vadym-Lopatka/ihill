@@ -8,7 +8,9 @@ import com.ihill.app.domain.enums.OfferStatusType.OPEN
 import com.ihill.app.domain.Player
 import com.ihill.app.helper.*
 import com.ihill.app.helper.ErrorMsg.OFFER_NOT_FOUND
+import com.ihill.app.helper.GameDataHelper.buildGame
 import com.ihill.app.helper.OfferDataHelper.buildOffer
+import com.ihill.app.helper.PlayerDataHelper.buildPlayer
 import com.ihill.app.repository.OfferRepository
 import com.ihill.app.repository.PlayerRepository
 import io.mockk.every
@@ -42,11 +44,6 @@ class OfferServiceAcceptorTest {
 
     }
 
-    private fun buildGame(initiatorUuid: String, acceptorUuid: String) = Game(
-            initiator = initiatorUuid,
-            acceptor = acceptorUuid
-    )
-
     @Test
     fun `should accept opened Offer`() {
         // given
@@ -57,7 +54,7 @@ class OfferServiceAcceptorTest {
         val game = service.acceptOffer(openedOfferUUID, acceptorUUID)
 
         // then
-        assertThat(acceptorUUID).isEqualTo(game.acceptor)
+        assertThat(acceptorUUID).isEqualTo(game.acceptor.uuid)
         assertThat(GameStatusType.LOBBY).isEqualTo(game.status)
     }
 
@@ -94,7 +91,5 @@ class OfferServiceAcceptorTest {
             assertThat(it.message).contains(GAME_REQUEST_CAN_NOT_BE_ACCEPTED)
         }*/
     }
-
-    companion object
 
 }

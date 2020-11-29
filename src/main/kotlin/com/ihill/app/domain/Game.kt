@@ -4,8 +4,8 @@ import com.ihill.app.domain.enums.GameStatusType
 import java.time.LocalDateTime
 
 data class Game(
-        val initiator: String,
-        val acceptor: String,
+        val initiator: Player,
+        val acceptor: Player,
         var status: GameStatusType = GameStatusType.LOBBY,
         val createdAt: LocalDateTime = LocalDateTime.now()
 )

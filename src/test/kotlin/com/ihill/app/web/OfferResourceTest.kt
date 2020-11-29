@@ -8,6 +8,7 @@ import com.ihill.app.helper.ACCEPTOR_UUID
 import com.ihill.app.helper.INITIATOR_UUID
 import com.ihill.app.helper.OPENED_OFFER_UUID
 import com.ihill.app.helper.OfferDataHelper.buildOffer
+import com.ihill.app.helper.PlayerDataHelper.buildPlayer
 import com.ihill.app.service.OfferService
 import com.ihill.app.web.OfferResource.Companion.OFFER_URL
 import com.ihill.app.web.request.AcceptOfferRequest
@@ -36,7 +37,8 @@ class OfferResourceTest {
     @BeforeEach
     fun setup() {
         every { service.openOffer(any()) } returns buildOffer(INITIATOR_UUID, null, OPEN)
-        every { service.acceptOffer(any(), any()) } returns Game(INITIATOR_UUID, ACCEPTOR_UUID, GameStatusType.LOBBY)
+        every { service.acceptOffer(any(), any()) } returns
+                Game(buildPlayer(INITIATOR_UUID), buildPlayer(ACCEPTOR_UUID), GameStatusType.LOBBY)
     }
 
     @Test
@@ -67,8 +69,9 @@ class OfferResourceTest {
         //then
         assertTrue(response.statusCode.is2xxSuccessful)
         val game = response.body!!
-        assertThat(game.initiator).isEqualTo(INITIATOR_UUID)
-        assertThat(game.acceptor).isEqualTo(ACCEPTOR_UUID)
+
+        assertThat(INITIATOR_UUID).isEqualTo(game.initiator.uuid)
+        assertThat(ACCEPTOR_UUID).isEqualTo(game.acceptor.uuid)
         assertThat(game.status).isEqualTo(GameStatusType.LOBBY)
     }
 
