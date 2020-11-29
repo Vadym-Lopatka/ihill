@@ -1,7 +1,7 @@
-package com.ihill.app.offer.repository
+package com.ihill.app.repository
 
-import com.ihill.app.offer.domain.Offer
-import com.ihill.app.offer.domain.OfferStatus
+import com.ihill.app.domain.Offer
+import com.ihill.app.domain.enums.OfferStatusType
 import org.springframework.stereotype.Service
 
 
@@ -18,7 +18,7 @@ class OfferRepository {
         return store[offerUUID]
     }
 
-    fun findOneByUuidAndStatus(uuid: String, status: OfferStatus): Offer? {
+    fun findOneByUuidAndStatus(uuid: String, status: OfferStatusType): Offer? {
         return findOne(uuid)?.takeIf { it.status == status }
     }
 }

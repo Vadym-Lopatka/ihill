@@ -1,4 +1,4 @@
-package com.ihill.app
+package com.ihill.app.helper
 
 object TestHelper {
     fun getRandomString(length: Int): String {

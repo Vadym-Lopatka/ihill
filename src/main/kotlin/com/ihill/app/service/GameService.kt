@@ -1,6 +1,7 @@
-package com.ihill.app.game
+package com.ihill.app.service
 
-import com.ihill.app.offer.domain.Offer
+import com.ihill.app.domain.Game
+import com.ihill.app.domain.Offer
 import org.springframework.stereotype.Service
 
 @Service
