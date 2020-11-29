@@ -1,20 +1,20 @@
-package com.ihill.app.offer.service
+package com.ihill.app.service
 
-import com.ihill.app.game.Game
-import com.ihill.app.game.GameService
-import com.ihill.app.offer.ErrorMsg
-import com.ihill.app.offer.domain.Offer
-import com.ihill.app.offer.domain.OfferStatus.OPEN
-import com.ihill.app.offer.domain.toAcceptedState
-import com.ihill.app.offer.repository.OfferRepository
-import com.ihill.app.player.repository.PlayerRepository
+import com.ihill.app.domain.Game
+import com.ihill.app.domain.Offer
+import com.ihill.app.domain.OfferStatusType
+import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.toAcceptedState
+import com.ihill.app.helper.ErrorMsg
+import com.ihill.app.repository.OfferRepository
+import com.ihill.app.repository.PlayerRepository
 import org.springframework.stereotype.Service
 
 @Service
 class OfferService(
-    private val gameService: GameService,
-    private val offerRepository: OfferRepository,
-    private val playerRepository: PlayerRepository
+        private val gameService: GameService,
+        private val offerRepository: OfferRepository,
+        private val playerRepository: PlayerRepository
 ) {
 
     fun openOffer(initiatorUuid: String): Offer {

@@ -1,4 +1,4 @@
-//package com.ihill.app
+//package com.ihill.app.annotation
 //
 //import com.newagesol.profile.web.validation.annotations.NullOrNotBlank
 //import org.assertj.core.api.Assertions.assertThat

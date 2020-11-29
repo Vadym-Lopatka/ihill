@@ -1,6 +1,6 @@
-package com.ihill.app.offer.web.request
+package com.ihill.app.web.request
 
-import com.ihill.app.offer.UuidSettings
+import com.ihill.app.helper.UuidSettings
 import javax.validation.constraints.Size
 
 data class AcceptOfferRequest(

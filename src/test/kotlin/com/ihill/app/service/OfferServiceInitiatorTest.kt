@@ -1,11 +1,11 @@
-package com.ihill.app.offer.service
+package com.ihill.app.service
 
-import com.ihill.app.game.GameService
-import com.ihill.app.offer.OfferDataHelper.buildOffer
-import com.ihill.app.offer.domain.OfferStatus
-import com.ihill.app.offer.repository.OfferRepository
-import com.ihill.app.player.repository.Player
-import com.ihill.app.player.repository.PlayerRepository
+import com.ihill.app.domain.OfferStatusType
+import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.Player
+import com.ihill.app.helper.OfferDataHelper.buildOffer
+import com.ihill.app.repository.OfferRepository
+import com.ihill.app.repository.PlayerRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -24,7 +24,7 @@ class OfferServiceInitiatorTest {
 
     @BeforeEach
     fun setup() {
-        every { repository.save(any()) } returns buildOffer(EXIST_INITIATOR_UUID, null, OfferStatus.OPEN)
+        every { repository.save(any()) } returns buildOffer(EXIST_INITIATOR_UUID, null, OPEN)
 
         every { playerRepository.findOne(EXIST_INITIATOR_UUID) } returns Player(EXIST_INITIATOR_UUID)
         every { playerRepository.findOne(NOT_EXIST_INITIATOR_UUID) } returns null
@@ -40,7 +40,7 @@ class OfferServiceInitiatorTest {
 
         // then
         assertThat(offer.initiatorUUID).isEqualTo(EXIST_INITIATOR_UUID)
-        assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
+        assertThat(offer.status).isEqualTo(OPEN)
     }
 
     @Test

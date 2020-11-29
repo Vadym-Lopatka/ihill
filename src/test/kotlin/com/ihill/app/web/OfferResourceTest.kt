@@ -1,14 +1,17 @@
-package com.ihill.app.offer
+package com.ihill.app.web
 
-import com.ihill.app.game.Game
-import com.ihill.app.game.GameStatus
-import com.ihill.app.offer.OfferDataHelper.buildOffer
-import com.ihill.app.offer.domain.Offer
-import com.ihill.app.offer.domain.OfferStatus
-import com.ihill.app.offer.service.OfferService
-import com.ihill.app.offer.web.OfferResource.Companion.OFFER_URL
-import com.ihill.app.offer.web.request.AcceptOfferRequest
-import com.ihill.app.offer.web.request.OpenOfferRequest
+import com.ihill.app.domain.Game
+import com.ihill.app.domain.GameStatusType
+import com.ihill.app.domain.Offer
+import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.helper.ACCEPTOR_UUID
+import com.ihill.app.helper.INITIATOR_UUID
+import com.ihill.app.helper.OPENED_OFFER_UUID
+import com.ihill.app.helper.OfferDataHelper.buildOffer
+import com.ihill.app.service.OfferService
+import com.ihill.app.web.OfferResource.Companion.OFFER_URL
+import com.ihill.app.web.request.AcceptOfferRequest
+import com.ihill.app.web.request.OpenOfferRequest
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.assertj.core.api.Assertions.assertThat
@@ -32,8 +35,8 @@ class OfferResourceTest {
 
     @BeforeEach
     fun setup() {
-        every { service.openOffer(any()) } returns buildOffer(INITIATOR_UUID, null, OfferStatus.OPEN)
-        every { service.acceptOffer(any(), any()) } returns Game(INITIATOR_UUID, ACCEPTOR_UUID,GameStatus.LOBBY)
+        every { service.openOffer(any()) } returns buildOffer(INITIATOR_UUID, null, OPEN)
+        every { service.acceptOffer(any(), any()) } returns Game(INITIATOR_UUID, ACCEPTOR_UUID, GameStatusType.LOBBY)
     }
 
     @Test
@@ -49,7 +52,7 @@ class OfferResourceTest {
         assertTrue(response.statusCode.is2xxSuccessful)
         val offer = response.body!!
         assertThat(openOffer.initiatorUUID).isEqualTo(offer.initiatorUUID)
-        assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
+        assertThat(offer.status).isEqualTo(OPEN)
     }
 
     @Test
@@ -66,7 +69,7 @@ class OfferResourceTest {
         val game = response.body!!
         assertThat(game.initiator).isEqualTo(INITIATOR_UUID)
         assertThat(game.acceptor).isEqualTo(ACCEPTOR_UUID)
-        assertThat(game.status).isEqualTo(GameStatus.LOBBY)
+        assertThat(game.status).isEqualTo(GameStatusType.LOBBY)
     }
 
 }

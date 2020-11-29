@@ -1,21 +1,16 @@
-package com.ihill.app.offer.service
+package com.ihill.app.service
 
-import com.ihill.app.game.Game
-import com.ihill.app.game.GameService
-import com.ihill.app.game.GameStatus
-import com.ihill.app.offer.ACCEPTOR_UUID
-import com.ihill.app.offer.CLOSED_OFFER_UUID
-import com.ihill.app.offer.ErrorMsg.OFFER_NOT_FOUND
-import com.ihill.app.offer.INITIATOR_UUID
-import com.ihill.app.offer.NOT_EXIST_OFFER_UUID
-import com.ihill.app.offer.OPENED_OFFER_UUID
-import com.ihill.app.offer.OfferDataHelper.buildOffer
-import com.ihill.app.offer.domain.OfferStatus.ACCEPTED
-import com.ihill.app.offer.domain.OfferStatus.CLOSED
-import com.ihill.app.offer.domain.OfferStatus.OPEN
-import com.ihill.app.offer.repository.OfferRepository
-import com.ihill.app.player.repository.Player
-import com.ihill.app.player.repository.PlayerRepository
+import com.ihill.app.domain.Game
+import com.ihill.app.domain.GameStatusType
+import com.ihill.app.domain.OfferStatusType
+import com.ihill.app.domain.OfferStatusType.CLOSED
+import com.ihill.app.domain.OfferStatusType.OPEN
+import com.ihill.app.domain.Player
+import com.ihill.app.helper.*
+import com.ihill.app.helper.ErrorMsg.OFFER_NOT_FOUND
+import com.ihill.app.helper.OfferDataHelper.buildOffer
+import com.ihill.app.repository.OfferRepository
+import com.ihill.app.repository.PlayerRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -40,7 +35,7 @@ class OfferServiceAcceptorTest {
 
         // offer
         val openedOffer = buildOffer(INITIATOR_UUID, null, OPEN)
-        val acceptedOffer = buildOffer(INITIATOR_UUID, ACCEPTOR_UUID, ACCEPTED)
+        val acceptedOffer = buildOffer(INITIATOR_UUID, ACCEPTOR_UUID, OfferStatusType.ACCEPTED)
         every { offerRepository.findOne(OPENED_OFFER_UUID) } returns openedOffer
         every { offerRepository.findOneByUuidAndStatus(OPENED_OFFER_UUID, OPEN) } returns openedOffer
         every { offerRepository.save(acceptedOffer) } returns acceptedOffer
@@ -48,8 +43,8 @@ class OfferServiceAcceptorTest {
     }
 
     private fun buildGame(initiatorUuid: String, acceptorUuid: String) = Game(
-        initiator = initiatorUuid,
-        acceptor = acceptorUuid
+            initiator = initiatorUuid,
+            acceptor = acceptorUuid
     )
 
     @Test
@@ -63,7 +58,7 @@ class OfferServiceAcceptorTest {
 
         // then
         assertThat(acceptorUUID).isEqualTo(game.acceptor)
-        assertThat(GameStatus.LOBBY).isEqualTo(game.status)
+        assertThat(GameStatusType.LOBBY).isEqualTo(game.status)
     }
 
     @Test

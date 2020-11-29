@@ -1,12 +1,12 @@
-package com.ihill.app.offer.web
+package com.ihill.app.web
 
 import com.ihill.app.config.getLogger
-import com.ihill.app.game.Game
-import com.ihill.app.offer.domain.Offer
-import com.ihill.app.offer.service.OfferService
-import com.ihill.app.offer.web.OfferResource.Companion.OFFER_URL
-import com.ihill.app.offer.web.request.AcceptOfferRequest
-import com.ihill.app.offer.web.request.OpenOfferRequest
+import com.ihill.app.domain.Game
+import com.ihill.app.domain.Offer
+import com.ihill.app.service.OfferService
+import com.ihill.app.web.OfferResource.Companion.OFFER_URL
+import com.ihill.app.web.request.AcceptOfferRequest
+import com.ihill.app.web.request.OpenOfferRequest
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody

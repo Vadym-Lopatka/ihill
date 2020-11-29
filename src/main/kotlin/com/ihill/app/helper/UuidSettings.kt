@@ -1,4 +1,4 @@
-package com.ihill.app.offer
+package com.ihill.app.helper
 
 object UuidSettings {
     const val MIN_LENGTH = 36

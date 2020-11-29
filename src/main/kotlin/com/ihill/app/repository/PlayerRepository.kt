@@ -1,7 +1,10 @@
-package com.ihill.app.player.repository
+package com.ihill.app.repository
 
+import com.ihill.app.domain.Player
 import org.springframework.stereotype.Component
-import java.util.UUID
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.plusAssign
 
 @Component
 class PlayerRepository {
@@ -25,6 +28,3 @@ class PlayerRepository {
 
 }
 
-data class Player(
-    val uuid: String
-)

@@ -1,11 +1,11 @@
-package com.ihill.app.offer
+package com.ihill.app.helper
 
-import com.ihill.app.offer.domain.Offer
-import com.ihill.app.offer.domain.OfferStatus
+import com.ihill.app.domain.Offer
+import com.ihill.app.domain.OfferStatusType
 
 
 object OfferDataHelper {
-    fun buildOffer(initiatorUUID: String, acceptorUUID: String?, status: OfferStatus) = Offer(
+    fun buildOffer(initiatorUUID: String, acceptorUUID: String?, status: OfferStatusType) = Offer(
             initiatorUUID = initiatorUUID,
             acceptorUUID = acceptorUUID,
             status = status

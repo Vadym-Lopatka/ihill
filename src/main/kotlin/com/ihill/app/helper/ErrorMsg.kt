@@ -1,4 +1,4 @@
-package com.ihill.app.offer
+package com.ihill.app.helper
 
 object ErrorMsg {
     const val PLAYER_NOT_FOUND = "Player with given uuid is not exist. UUID:"
