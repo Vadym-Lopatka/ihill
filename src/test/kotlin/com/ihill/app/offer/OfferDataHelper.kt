@@ -5,14 +5,10 @@ import com.ihill.app.offer.domain.OfferStatus
 
 
 object OfferDataHelper {
-    fun buildOffer(
-        initiator: String,
-        acceptor: String?,
-        status: OfferStatus
-    ) = Offer(
-        initiator = initiator,
-        acceptor = acceptor,
-        status = status
+    fun buildOffer(initiatorUUID: String, acceptorUUID: String?, status: OfferStatus) = Offer(
+            initiatorUUID = initiatorUUID,
+            acceptorUUID = acceptorUUID,
+            status = status
     )
 }
 

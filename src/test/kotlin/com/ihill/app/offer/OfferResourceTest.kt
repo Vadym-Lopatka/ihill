@@ -1,6 +1,5 @@
 package com.ihill.app.offer
 
-import com.ihill.app.TestHelper.getRandomString
 import com.ihill.app.game.Game
 import com.ihill.app.game.GameStatus
 import com.ihill.app.offer.OfferDataHelper.buildOffer
@@ -49,7 +48,7 @@ class OfferResourceTest {
         //then
         assertTrue(response.statusCode.is2xxSuccessful)
         val offer = response.body!!
-        assertThat(openOffer.initiatorUUID).isEqualTo(offer.initiator)
+        assertThat(openOffer.initiatorUUID).isEqualTo(offer.initiatorUUID)
         assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
     }
 

@@ -1,9 +1,9 @@
 package com.ihill.app.offer.domain
 
 data class Offer(
-    val initiator: String,
-    var acceptor: String? = null,
-    var status: OfferStatus = OfferStatus.OPEN
+        val initiatorUUID: String,
+        var acceptorUUID: String? = null,
+        var status: OfferStatus = OfferStatus.OPEN
 )
 
 enum class OfferStatus {
@@ -13,9 +13,9 @@ enum class OfferStatus {
     FAILED
 }
 
-fun Offer.toAcceptState(acceptorUUID: String): Offer {
+fun Offer.toAcceptedState(acceptorUUID: String): Offer {
     return this.copy().apply {
-        acceptor = acceptorUUID
+        this.acceptorUUID = acceptorUUID
         status = OfferStatus.ACCEPTED
     }
 }

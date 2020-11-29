@@ -39,7 +39,7 @@ class OfferServiceInitiatorTest {
         val offer = service.openOffer(initiator)
 
         // then
-        assertThat(offer.initiator).isEqualTo(EXIST_INITIATOR_UUID)
+        assertThat(offer.initiatorUUID).isEqualTo(EXIST_INITIATOR_UUID)
         assertThat(offer.status).isEqualTo(OfferStatus.OPEN)
     }
 

@@ -10,7 +10,7 @@ class OfferRepository {
     private val store = HashMap<String, Offer>()
 
     fun save(offer: Offer): Offer {
-        store[offer.initiator] = offer
+        store[offer.initiatorUUID] = offer
         return offer
     }
 
